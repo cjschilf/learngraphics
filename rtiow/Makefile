@@ -9,7 +9,7 @@ $(TARGET): main.cpp
 	$(CXX) $(CXXFLAGS) main.cpp -o main.exe
 
 run: 
-	main.exe > image_out.ppm
+	./main.exe > image_out.ppm
 
 clean:
 	del main.exe
