@@ -1,29 +1,13 @@
-#include "color.h"
-#include "ray.h"
-#include "vec3.h"
+#include "rtweekend.h"
 
-#include <iostream>
+#include "hittable.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
-bool hit_sphere(const point3& center, double radius, const ray& r) {
-  // given a sphere, return bool if a ray hits it or not
-  vec3 oc = center - r.origin();
-  
-  // quadratic formula components solved out
-  auto a = dot(r.direction(), r.direction());
-  auto b = -2.0 * dot(r.direction(), oc);
-  auto c = dot(oc, oc) - radius * radius;
-
-  auto discriminant = b*b - 4*a*c;
-  return (discriminant >= 0);
-}
-
-color ray_color(const ray& r){
-  if (hit_sphere(point3(0.25,0,-1), 0.5, r)) {
-    return color(1,0,0);
-  }
-
-  if (hit_sphere(point3(0.5,0.5,-1), 0.25, r)) {
-    return color(0,1,0);
+color ray_color(const ray& r, const hittable& world) {
+  hit_record rec;
+  if (world.hit(r, 0, infinity, rec)) {
+    return 0.5 * (rec.normal + color(1,1,1));
   }
 
   // lerp between blue and white based on ray direction
@@ -42,6 +26,11 @@ int main() {
   // calculate img height from aspect ratio + width
   int img_height = int(img_width / aspect_ratio);
   img_height = (img_height < 1) ? 1 : img_height; // height must be 1 or greater
+
+  // 'world' of hittable objects
+  hittable_list world;
+  world.add(make_shared<sphere>(point3(0,0,-1), 0.5));
+  world.add(make_shared<sphere>(point3(0,-100.5,-1), 100));
 
   // camera stuff
   auto focal_length = 1.0;
@@ -72,8 +61,7 @@ int main() {
       auto ray_dir = pixel_center - camera_origin;
       ray r(camera_origin, ray_dir);
 
-      color pixel_color = ray_color(r);
-      
+      color pixel_color = ray_color(r, world);
       write_color(std::cout, pixel_color);
     }
 
