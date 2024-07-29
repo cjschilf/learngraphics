@@ -28,6 +28,8 @@ int main() {
 
   world_cam.aspect_ratio = 16.0 / 9.0;
   world_cam.image_width = 400;
+  world_cam.samples_per_pixel = 100; // 100 samples per pixel, controls degree of anti-aliasing
+  world_cam.max_depth = 25; // max ray recursion depth
 
   world_cam.render(world);
 }

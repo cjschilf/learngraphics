@@ -12,5 +12,5 @@ run:
 	./main.exe > image_out.ppm
 
 clean:
-	del main.exe
-	del image_out.ppm
+	rm main.exe
+	rm image_out.ppm

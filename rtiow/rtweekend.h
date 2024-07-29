@@ -18,6 +18,16 @@ inline double degrees_to_rad(double degrees) {
     return degrees * pi / 180.0;
 }
 
+inline double random_double() {
+    // random real in [0,1)
+    return rand() / (RAND_MAX + 1.0);
+}
+
+inline double random_double(double min, double max) {
+    // random real in [min,max)
+    return min + (max-min)*random_double();
+}
+
 #include "color.h"
 #include "interval.h"
 #include "ray.h"
