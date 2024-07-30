@@ -57,6 +57,12 @@ class vec3 {
       return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
     }
 
+    bool near_zero() const {
+      // true if vector close to zero in all dir using float abs val
+      auto test = 1e-8;
+      return (fabs(e[0]) < test) && (fabs(e[1]) < test) && (fabs(e[2]) < test);
+    }
+
     static vec3 random() {
       return vec3(random_double(), random_double(), random_double());
     }
@@ -143,6 +149,11 @@ inline vec3 random_on_hemisphere(const vec3& normal) {
     return on_unit_sphere;
   else
     return -on_unit_sphere;
+}
+
+inline vec3 reflect(const vec3& v, const vec3& n) {
+  // standard reflection from fully reflective surface (i.e. chrome metal)
+  return v - 2*dot(v,n) * n;
 }
 
 #endif
