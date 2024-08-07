@@ -27,10 +27,13 @@ int main() {
   auto mat_matte_blue = make_shared<lambertian>(color(0.1, 0.2, 0.5));
   auto mat_metal_blue = make_shared<metal>(color(0.2, 0.2, 0.8), 0.2);
   auto mat_metal_red = make_shared<metal>(color(0.8, 0.2, 0.2), 0.5);
+  auto mat_glass = make_shared<dielectric>(1.5);
+  auto mat_bubble = make_shared<dielectric>(1.0 / 1.5); // simulate air inside a hollow glass bubble
 
   world.add(make_shared<sphere>(point3(0,0,-1), 0.5, mat_matte_blue));
   world.add(make_shared<sphere>(point3(0,-100.5,-1), 100, mat_ground));
-  world.add(make_shared<sphere>(point3(-1.0,0.0,-1.0), 0.5, mat_metal_blue));
+  world.add(make_shared<sphere>(point3(-1.0,0.0,-1.0), 0.5, mat_glass));
+  world.add(make_shared<sphere>(point3(-1.0,0.0,-1.0), 0.45, mat_bubble));
   world.add(make_shared<sphere>(point3(1.0,0.0,-1.0), 0.5, mat_metal_red));
 
 
