@@ -30,19 +30,26 @@ int main() {
   auto mat_glass = make_shared<dielectric>(1.5);
   auto mat_bubble = make_shared<dielectric>(1.0 / 1.5); // simulate air inside a hollow glass bubble
 
-  world.add(make_shared<sphere>(point3(0,0,-1), 0.5, mat_matte_blue));
-  world.add(make_shared<sphere>(point3(0,-100.5,-1), 100, mat_ground));
-  world.add(make_shared<sphere>(point3(-1.0,0.0,-1.0), 0.5, mat_glass));
-  world.add(make_shared<sphere>(point3(-1.0,0.0,-1.0), 0.45, mat_bubble));
-  world.add(make_shared<sphere>(point3(1.0,0.0,-1.0), 0.5, mat_metal_red));
-
-
+  world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, mat_ground));
+  world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.2),   0.5, mat_matte_blue));
+  world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, mat_glass));
+  world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.4, mat_bubble));
+  world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, mat_metal_red));
+  
   camera world_cam;
 
   world_cam.aspect_ratio = 16.0 / 9.0;
   world_cam.image_width = 400;
   world_cam.samples_per_pixel = 100; // 100 samples per pixel, controls degree of anti-aliasing
   world_cam.max_depth = 25; // max ray recursion depth
+  
+  world_cam.vfov = 20; // wide angle 
+  world_cam.lookfrom = point3(-2,2,1);
+  world_cam.lookat = point3(0,0,-1);
+  world_cam.v_up = vec3(0,1,0);
+
+  world_cam.defocus_angle = 10.0;
+  world_cam.focus_dist = 3.4;
 
   world_cam.render(world);
 }
